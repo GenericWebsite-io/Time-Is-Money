@@ -1,11 +1,9 @@
 
-
-
-
-
-
-
 function love.load()
+    --[[
+    Loads all variables and modules into the global scope because it cannot be accessed outside
+    this given function outside which has me a tad bit confused but oh well.
+    ]]
 
     require "buttonController"
 
@@ -49,7 +47,7 @@ function love.load()
 end
 
 
-function drawText(text, x, y, limit, big)
+function drawText(text, x, y, limit, big) -- Pretty pointless function. Planning on implementing another object class for managing text & text boxes.
     if big then
         love.graphics.setFont(fontBig)
     else
@@ -75,7 +73,7 @@ function love.update()
     buttonController.update(love.mouse.getPosition())
 end
 
-function love.draw()
+function love.draw() -- Needs to be replaced with other stuff. Probably a game handler. Something that can switch stuff around. Like from main menu to game.
     love.graphics.setColor(theme.backgroundColor)
     love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
     love.graphics.setColor(255,255,255)

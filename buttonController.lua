@@ -4,7 +4,7 @@
 ]]
 
 buttonController = {}  -- Class definition.
-buttonController.buttons = {}
+buttonController.buttons = {} -- Establishes a list for instance storing and easy updating.
 buttonController.__index = buttonController  -- Enables inheritance.
 
 local globalCooldown = .1 -- Global cooldown variable. Basically the amount of time (in seconds) all buttons have to wait.
