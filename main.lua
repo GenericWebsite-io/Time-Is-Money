@@ -5,7 +5,16 @@ function love.load()
     this given function outside which has me a tad bit confused but oh well.
     ]]
 
-    require "buttonController"
+
+    local assetsPath = "Assets/"
+    local fontPath = assetsPath .. "Font/"
+    local sfxPath = assetsPath .. "Sfx/"
+    local imgPath = assetsPath .. "Images/"
+    local modulePath = assetsPath .. "Modules/"
+
+
+    -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path..
+    require "Assets/Modules/buttonController" 
 
     --love.window.setMode(1940,1080)
 
@@ -17,11 +26,13 @@ function love.load()
         accentColor = {love.math.colorFromBytes(0,200,180)},
     }
 
-    clickSfx = love.audio.newSource("Sfx/clickSFX1.mp3", "stream")
+    clickSfx = love.audio.newSource(sfxPath.."clickSFX1.mp3", "stream")
     
-    fontBig = love.graphics.newFont("MyFont.ttf",50)
-    fontNormal = love.graphics.newFont("MyFont.ttf",24)
-    fontSmall = love.graphics.newFont("MyFont.ttf",18)
+    local myFont = fontPath.."MyFont.ttf"
+
+    fontBig = love.graphics.newFont(myFont,50)
+    fontNormal = love.graphics.newFont(myFont,24)
+    fontSmall = love.graphics.newFont(myFont,18)
     
  
     uiPlacement = {}
