@@ -1,8 +1,10 @@
 
 function love.load()
     --[[
-    Loads all variables and modules into the global scope because it cannot be accessed outside
-    this given function outside which has me a tad bit confused but oh well.
+        Loads all variables and modules into the global scope because it cannot be accessed outside
+        this given function outside which has me a tad bit confused but oh well.
+
+        I say that then proceed to load path variables into the local scope. :3
     ]]
 
 
