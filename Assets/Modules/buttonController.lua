@@ -9,32 +9,41 @@ buttonController.__index = buttonController  -- Enables inheritance.
 
 local globalCooldown = .1 -- Global cooldown variable. Basically the amount of time (in seconds) all buttons have to wait.
 
-function buttonController.new(text,x,y,width,height,sfx)
+function buttonController.new(textbox,sfx)
         --[[
         Creates a new button instance and appends it to a list of buttons.
         All buttons have a set of properties and functions inherited from buttonController.
         ]]
 
-    -- Prevent instances from calling new().
+    -- Prevent child instances from calling new().
     if getmetatable(name) == buttonController then
         error("Instances cannot create new objects!", 2)
     end
 
     local buttonObj = {
-        text = text,
-        x = x,
-        y = y,
-        width = width,
-        height = height,
         active = false, -- Has the button been triggered.
         hovering = false, -- Is mouse hovering.
         triggerTime = 0, -- How long ago since triggered.
         sfx = sfx,
     }
 
-    setmetatable(buttonObj, buttonController)  -- Set metatable to allow inheritance.
-    table.insert(buttonController.buttons, buttonObj) -- Insert it in the buttons list for easy updating.
-    return buttonObj
+    for key, value in pairs(buttonController) do
+        if textbox[key] == nil then
+            textbox[key] = value
+        end
+    end
+
+    for key, value in pairs(buttonObj) do 
+        if textbox[key] == nil then
+            textbox[key] = value
+        end
+    end
+
+    textbox["draw"] = buttonController.draw
+    textbox.class = "textbutton"
+
+    table.insert(buttonController.buttons, textbox) -- Insert it in the buttons list for easy updating.
+    return textbox
 end
 
 
@@ -79,7 +88,7 @@ function buttonController.update(mouseX, mouseY)
         Iterates through all created button instances and updates all relevant information.
         Is in charge of cooldown and checking wheter the cursor is over the button or not.
     ]]
-    for _, buttonObj in pairs(buttonController.buttons) do 
+    for _, buttonObj in ipairs(buttonController.buttons) do 
         if buttonObj.active then
             if buttonObj.triggerTime < love.timer.getTime() then
                 buttonObj.active = false
@@ -106,3 +115,4 @@ function buttonController:draw()
     love.graphics.printf(self.text,self.x,self.y + (self.height - love.graphics.getFont():getHeight())/2,self.width,"center")
 end
 
+return buttonController

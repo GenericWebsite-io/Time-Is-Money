@@ -5,6 +5,10 @@ function love.load()
     this given function outside which has me a tad bit confused but oh well.
     ]]
 
+    function warn(msg)
+        print("[WARNING]: " .. msg)
+    end
+
 
     local assetsPath = "Assets/"
     local fontPath = assetsPath .. "Font/"
@@ -13,8 +17,10 @@ function love.load()
     local modulePath = assetsPath .. "Modules/"
 
 
-    -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path..
-    require "Assets/Modules/buttonController" 
+    -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
+    guiController = require "Assets/Modules/guiController"
+    buttonController = require "Assets/Modules/buttonController" 
+    textboxController = require "Assets/Modules/textboxController" 
 
     --love.window.setMode(1940,1080)
 
@@ -52,9 +58,12 @@ function love.load()
         y = uiPlacement.title.y + 100,
     }
 
-    button = buttonController.new("Start", uiPlacement.buttonStart.x, uiPlacement.buttonStart.y, 200,50, clickSfx)
+    local textbox = textboxController.new("text",uiPlacement.buttonStart.x, uiPlacement.buttonStart.y, 200, 50)
+    local textbox2 = textboxController.new("text",uiPlacement.buttonStart.x+250, uiPlacement.buttonStart.y, 200, 50)
+    local button = buttonController.new(textbox,clickSfx)
 
-
+    guiController.addElement(button)
+    guiController.addElement(textbox2)
 end
 
 
@@ -87,12 +96,9 @@ end
 function love.draw() -- Needs to be replaced with other stuff. Probably a game handler. Something that can switch stuff around. Like from main menu to game.
     love.graphics.setColor(theme.backgroundColor)
     love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
+    guiController.drawAll()
     love.graphics.setColor(255,255,255)
     drawText("Time is Money", uiPlacement.title.x, uiPlacement.title.y, 400, true)
     drawText("Version 0.0: Genesis", uiPlacement.underTitle.x, uiPlacement.underTitle.y, 250, false)
-    
-    for _, buttonObj in pairs(buttonController.buttons) do -- Looping through all currently active buttons and updating their status.
-        buttonObj:draw()
-    end
 end
 
