@@ -38,6 +38,26 @@ function guiController.addElement(element)
 
 end
 
+function guiController.removeElement(element)
+    --[[
+        Removes given element if it is present in the list.
+    ]]
+
+    for i, listElement in pairs(guiElements) do
+        print(listElement.class)
+        if listElement == element then
+            table.remove(guiElements,i)
+            return true
+        end
+    end
+    return false
+
+end
+
+function guiController.clearElements()
+    guiElements = {}
+end
+
 function guiController.drawAll()
     for _, element in pairs(guiElements) do
         element:draw()

@@ -64,6 +64,8 @@ function love.load()
 
     guiController.addElement(button)
     guiController.addElement(textbox2)
+    
+    guiController.clearElements()
 end
 
 
