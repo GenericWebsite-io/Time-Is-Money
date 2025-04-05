@@ -12,6 +12,12 @@ guiController.__index = guiController
 local buttonController = require "Assets/Modules/buttonController"
 local textboxController = require "Assets/Modules/textboxController"
 
+colorTheme = {
+    backgroundColor = {love.math.colorFromBytes(200,200,200)},
+    accentColor = {love.math.colorFromBytes(0,155,125)},
+    textColor = {love.math.colorFromBytes(255,255,255)},
+    titleColor = {love.math.colorFromBytes(0,200,180)},
+}
 
 
 function guiController.addElement(element)
@@ -56,11 +62,20 @@ end
 
 function guiController.clearElements()
     guiElements = {}
+    for _, obj in pairs(guiElements) do
+        print(obj)
+    end
 end
 
 function guiController.drawAll()
     for _, element in pairs(guiElements) do
         element:draw()
+    end
+end
+
+function guiController.updateAll()
+    for _, element in pairs(guiElements) do
+        element:update()
     end
 end
 

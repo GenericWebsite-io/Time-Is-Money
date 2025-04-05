@@ -40,6 +40,7 @@ function buttonController.new(textbox,sfx)
     end
 
     textbox["draw"] = buttonController.draw
+    textbox["update"] = buttonController.update
     textbox.class = "textbutton"
 
     table.insert(buttonController.buttons, textbox) -- Insert it in the buttons list for easy updating.
@@ -83,11 +84,12 @@ function buttonController:click(x,y) -- Abstract function, intended to be overwr
     end
 end
 
-function buttonController.update(mouseX, mouseY)
+function buttonController.update()
     --[[
         Iterates through all created button instances and updates all relevant information.
         Is in charge of cooldown and checking wheter the cursor is over the button or not.
     ]]
+    mouseX, mouseY = love.mouse.getPosition()
     for _, buttonObj in ipairs(buttonController.buttons) do 
         if buttonObj.active then
             if buttonObj.triggerTime < love.timer.getTime() then
