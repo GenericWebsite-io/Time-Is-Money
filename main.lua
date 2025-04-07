@@ -19,8 +19,8 @@ function love.load()
 
     -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
     guiController = require "Assets/Modules/guiController"
-    buttonController = require "Assets/Modules/buttonController" 
-    textboxController = require "Assets/Modules/textboxController" 
+    Instance = require "Assets/Modules/InstanceClass"
+
 
     --love.window.setMode(1940,1080)
 
@@ -58,25 +58,20 @@ function love.load()
         y = uiPlacement.title.y + 100,
     }
 
-    local titleLabel = textboxController.convertLabel(textboxController.new("Time is Money", uiPlacement.title.x, uiPlacement.title.y,400,50))
-    local undertitleLabel = textboxController.convertLabel(textboxController.new("Version 0.1: Evolution", uiPlacement.underTitle.x, uiPlacement.underTitle.y,250,50))
-    
+ 
+
+    local titleLabel = Instance.new("textlabel")
+    titleLabel.text = "Time is Money"
+    titleLabel:setPos(uiPlacement.title)
+    titleLabel.width = 400
+    titleLabel.height = 100
+    titleLabel.limit = 400
     titleLabel.font = fontBig
     titleLabel.textColor = colorTheme.titleColor
-    titleLabel.limit = 400
 
-    undertitleLabel.font = fontSmall
-    undertitleLabel.textColor = colorTheme.titleColor
-    undertitleLabel.limit = 250
-
-    local button = buttonController.new(textboxController.new("Start",uiPlacement.buttonStart.x, uiPlacement.buttonStart.y, 200, 50) ,clickSfx)
-
-
-    guiController.addElement(button)
     guiController.addElement(titleLabel)
-    guiController.addElement(undertitleLabel)
-    
-    --guiController.clearElements()
+
+
 end
 
 function love.mousepressed(x, y, mouseButton, istouch, presses)
