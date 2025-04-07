@@ -7,6 +7,10 @@ function love.load()
         I say that then proceed to load path variables into the local scope. :3
     ]]
 
+    function warn(msg)
+        print("[WARNING]: " .. msg)
+    end
+
 
     local assetsPath = "Assets/"
     local fontPath = assetsPath .. "Font/"
@@ -15,8 +19,11 @@ function love.load()
     local modulePath = assetsPath .. "Modules/"
 
 
-    -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path..
-    require "Assets/Modules/buttonController" 
+    -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
+    GuiController = require "Assets/Modules/GuiController"
+    Button = require "Assets/Modules/ButtonClass"
+    Instance = require "Assets/Modules/InstanceClass"
+
 
     --love.window.setMode(1940,1080)
 
@@ -36,65 +43,76 @@ function love.load()
     fontNormal = love.graphics.newFont(myFont,24)
     fontSmall = love.graphics.newFont(myFont,18)
     
- 
-    uiPlacement = {}
+    local titleLabel = Instance.new("Textlabel")
+    titleLabel.text = "Time is Money"
+    titleLabel:setPos(10,0)
+    titleLabel:setSize(400,100)
+    titleLabel.limit = 325
+    titleLabel.font = fontBig
+    titleLabel.textColor = colorTheme.titleColor
 
-    uiPlacement.title = {
-        x = 0,
-        y = 0,
-    }
+    local underTitleLabel = Instance.new("Textlabel")
+    underTitleLabel.text = "Version: 0.12 - Instances"
+    underTitleLabel:setPos(-20,55)
+    underTitleLabel:setSize(250,50)
+    underTitleLabel.anchor = titleLabel
+    underTitleLabel.limit = 250
+    underTitleLabel.font = fontSmall
+    underTitleLabel.textColor = colorTheme.titleColor
 
-    uiPlacement.underTitle = {
-        x = uiPlacement.title.x,
-        y = uiPlacement.title.y + 50,
-    }
-
-    uiPlacement.buttonStart = {
-        x = uiPlacement.title.x + 40,
-        y = uiPlacement.title.y + 100,
-    }
-
-    button = buttonController.new("Start", uiPlacement.buttonStart.x, uiPlacement.buttonStart.y, 200,50, clickSfx)
-
-
-end
-
-
-function drawText(text, x, y, limit, big) -- Pretty pointless function. Planning on implementing another object class for managing text & text boxes.
-    if big then
-        love.graphics.setFont(fontBig)
-    else
-        love.graphics.setFont(fontSmall)
+    local startButton = Instance.new("Button")
+    startButton.text = "Start"
+    startButton:setPos(20,150)
+    startButton:setSize(200,50)
+    startButton.limit = 200
+    startButton.textColor = colorTheme.titleColor
+    startButton.click = function()
+        GuiController.loadGUI("game")
     end
-    love.graphics.setColor(theme.accentColor)
-    love.graphics.printf(text,x,y,limit,"center")
-    love.graphics.setFont(fontSmall)
-end
 
+    ---
+
+    local testLabel = Instance.new("Textlabel")
+    testLabel.text = "Main Screen"
+    testLabel:setPos(screenWidth*0.5-200,screenHeight*0.5-50)
+    testLabel:setSize(400,100)
+    testLabel.limit = 400
+    testLabel.font = fontBig
+    testLabel.textColor = colorTheme.titleColor
+
+    local timeLabel = Instance.new("Textlabel")
+    timeLabel.text = "Time:0"
+    timeLabel:setPos(0,0)
+    timeLabel:setSize(100,50)
+    timeLabel.limit = 100
+    timeLabel.font = fontSmall
+    timeLabel.textColor = colorTheme.titleColor
+    timeLabel.update = function()
+        timeLabel.text = string.format("Time:%.2f",love.timer.getTime())
+    end
+
+    local panel = {titleLabel,underTitleLabel,startButton}
+    local gamePanel = {testLabel,timeLabel}
+
+    GuiController.createGUI("title",panel)
+    GuiController.createGUI("game",gamePanel)
+    GuiController.loadGUI("title")
+
+
+end
 
 function love.mousepressed(x, y, mouseButton, istouch, presses)
-    if mouseButton == 1 then
-        for _, buttonObj in pairs(buttonController.buttons) do
-            buttonObj:click(x,y) -- Change to make use of the hover property, instead of itterating through all buttons. :p 
-            -- (She means make use of the variable hover. In other words, if hover, that means we probably clicked that button.)
-        end
-    end
+    Button.mousepressed(x,y,mouseButton,istouch,presses)
 end
 
 
 function love.update()
-    buttonController.update(love.mouse.getPosition())
+    GuiController.updateAll()
 end
 
 function love.draw() -- Needs to be replaced with other stuff. Probably a game handler. Something that can switch stuff around. Like from main menu to game.
     love.graphics.setColor(theme.backgroundColor)
     love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
-    love.graphics.setColor(255,255,255)
-    drawText("Time is Money", uiPlacement.title.x, uiPlacement.title.y, 400, true)
-    drawText("Version 0.0: Genesis", uiPlacement.underTitle.x, uiPlacement.underTitle.y, 250, false)
-    
-    for _, buttonObj in pairs(buttonController.buttons) do -- Looping through all currently active buttons and updating their status.
-        buttonObj:draw()
-    end
+    GuiController.drawAll()
 end
 
