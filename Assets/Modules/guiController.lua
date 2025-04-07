@@ -6,8 +6,9 @@
 
 
 local guiElements = {}
-local guiController = {}
-guiController.__index = guiController
+local guiPanels = {}
+local GuiController = {}
+GuiController.__index = GuiController
 
 colorTheme = {
     backgroundColor = {love.math.colorFromBytes(200,200,200)},
@@ -17,7 +18,7 @@ colorTheme = {
 }
 
 
-function guiController.addElement(element)
+function GuiController.addElement(element)
     --[[
         Attempts to add a given element to the list of GUI elements so long as it is valid.
     ]]
@@ -41,7 +42,7 @@ function guiController.addElement(element)
 
 end
 
-function guiController.removeElement(element)
+function GuiController.removeElement(element)
     --[[
         Removes given element if it is present in the list.
     ]]
@@ -57,23 +58,37 @@ function guiController.removeElement(element)
 
 end
 
-function guiController.clearElements()
+function GuiController.clearElements()
     guiElements = {}
     for _, obj in pairs(guiElements) do
         print(obj)
     end
 end
 
-function guiController.drawAll()
+function GuiController.createGUI(Name,Table)
+    guiPanels[Name] = Table
+end
+
+function GuiController.loadGUI(Name)
+    GuiController.clearElements()
+    for key, value in pairs(guiPanels[Name]) do
+        GuiController.addElement(value)
+    end
+end
+
+
+function GuiController.drawAll()
     for _, element in pairs(guiElements) do
         element:draw()
     end
 end
 
-function guiController.updateAll()
+function GuiController.updateAll()
     for _, element in pairs(guiElements) do
         element:update()
     end
 end
 
-return guiController
+
+
+return GuiController

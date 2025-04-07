@@ -18,7 +18,7 @@ function love.load()
 
 
     -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
-    guiController = require "Assets/Modules/guiController"
+    GuiController = require "Assets/Modules/GuiController"
     Button = require "Assets/Modules/ButtonClass"
     Instance = require "Assets/Modules/InstanceClass"
 
@@ -64,13 +64,37 @@ function love.load()
     startButton:setSize(200,50)
     startButton.limit = 200
     startButton.textColor = colorTheme.titleColor
-    startButton["click"] = function()
-        guiController.clearElements()
+    startButton.click = function()
+        GuiController.loadGUI("game")
     end
 
-    guiController.addElement(titleLabel)
-    guiController.addElement(underTitleLabel)
-    guiController.addElement(startButton)
+    ---
+
+    local testLabel = Instance.new("Textlabel")
+    testLabel.text = "Main Screen"
+    testLabel:setPos(screenWidth*0.5-200,screenHeight*0.5-50)
+    testLabel:setSize(400,100)
+    testLabel.limit = 400
+    testLabel.font = fontBig
+    testLabel.textColor = colorTheme.titleColor
+
+    local timeLabel = Instance.new("Textlabel")
+    timeLabel.text = "Time:0"
+    timeLabel:setPos(0,0)
+    timeLabel:setSize(100,50)
+    timeLabel.limit = 100
+    timeLabel.font = fontSmall
+    timeLabel.textColor = colorTheme.titleColor
+    timeLabel.update = function()
+        timeLabel.text = string.format("Time:%.2f",love.timer.getTime())
+    end
+
+    local panel = {titleLabel,underTitleLabel,startButton}
+    local gamePanel = {testLabel,timeLabel}
+
+    GuiController.createGUI("title",panel)
+    GuiController.createGUI("game",gamePanel)
+    GuiController.loadGUI("title")
 
 
 end
@@ -81,12 +105,12 @@ end
 
 
 function love.update()
-    guiController.updateAll()
+    GuiController.updateAll()
 end
 
 function love.draw() -- Needs to be replaced with other stuff. Probably a game handler. Something that can switch stuff around. Like from main menu to game.
     love.graphics.setColor(theme.backgroundColor)
     love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
-    guiController.drawAll()
+    GuiController.drawAll()
 end
 
