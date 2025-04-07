@@ -9,9 +9,6 @@ local guiElements = {}
 local guiController = {}
 guiController.__index = guiController
 
-local buttonController = require "Assets/Modules/buttonController"
-local textboxController = require "Assets/Modules/TextboxClass"
-
 colorTheme = {
     backgroundColor = {love.math.colorFromBytes(200,200,200)},
     accentColor = {love.math.colorFromBytes(0,155,125)},

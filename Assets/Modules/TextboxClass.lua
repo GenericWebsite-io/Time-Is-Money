@@ -36,7 +36,7 @@ function Textbox:draw()
     love.graphics.rectangle("fill",xPos, yPos, self.width, self.height)
     love.graphics.setColor(self.textColor)
     love.graphics.setFont(self.font)
-    love.graphics.printf(self.text,xPos,yPos + (self.height - love.graphics.getFont():getHeight())/2 ,self.width,"center")
+    love.graphics.printf(self.text,xPos,yPos + (self.height - love.graphics.getFont():getHeight())/2 ,self.limit,"center")
 end
 
 function Textbox:update()

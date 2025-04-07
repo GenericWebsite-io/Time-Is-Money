@@ -1,7 +1,8 @@
 
 
-local Textbox = require "Assets/Modules/TextboxClass"
+local Textbox = require "Assets.Modules.TextboxClass"
 local Textlabel = require "Assets.Modules.TextlabelClass"
+local Button = require "Assets.Modules.ButtonClass"
 
 local Instance = {}
 Instance.__index = Instance
@@ -34,7 +35,8 @@ function Instance:update() end
 function Instance:draw() end
 
 
-Instance.register("textbox", Textbox)
+Instance.register("Textbox", Textbox)
 Instance.register("Textlabel", Textlabel)
+Instance.register("Button", Button)
 
 return Instance
