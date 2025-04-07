@@ -19,8 +19,9 @@ function love.load()
 
     -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
     guiController = require "Assets/Modules/guiController"
-    buttonController = require "Assets/Modules/buttonController" 
-    textboxController = require "Assets/Modules/textboxController" 
+    Button = require "Assets/Modules/ButtonClass"
+    Instance = require "Assets/Modules/InstanceClass"
+
 
     --love.window.setMode(1940,1080)
 
@@ -40,51 +41,42 @@ function love.load()
     fontNormal = love.graphics.newFont(myFont,24)
     fontSmall = love.graphics.newFont(myFont,18)
     
- 
-    uiPlacement = {}
-
-    uiPlacement.title = {
-        x = 0,
-        y = 10,
-    }
-
-    uiPlacement.underTitle = {
-        x = uiPlacement.title.x + 5,
-        y = uiPlacement.title.y + 30,
-    }
-
-    uiPlacement.buttonStart = {
-        x = uiPlacement.title.x + 40,
-        y = uiPlacement.title.y + 100,
-    }
-
-    local titleLabel = textboxController.convertLabel(textboxController.new("Time is Money", uiPlacement.title.x, uiPlacement.title.y,400,50))
-    local undertitleLabel = textboxController.convertLabel(textboxController.new("Version 0.1: Evolution", uiPlacement.underTitle.x, uiPlacement.underTitle.y,250,50))
-    
+    local titleLabel = Instance.new("Textlabel")
+    titleLabel.text = "Time is Money"
+    titleLabel:setPos(10,0)
+    titleLabel:setSize(400,100)
+    titleLabel.limit = 325
     titleLabel.font = fontBig
     titleLabel.textColor = colorTheme.titleColor
-    titleLabel.limit = 400
 
-    undertitleLabel.font = fontSmall
-    undertitleLabel.textColor = colorTheme.titleColor
-    undertitleLabel.limit = 250
+    local underTitleLabel = Instance.new("Textlabel")
+    underTitleLabel.text = "Version: 0.12 - Instances"
+    underTitleLabel:setPos(-20,55)
+    underTitleLabel:setSize(250,50)
+    underTitleLabel.anchor = titleLabel
+    underTitleLabel.limit = 250
+    underTitleLabel.font = fontSmall
+    underTitleLabel.textColor = colorTheme.titleColor
 
-    local button = buttonController.new(textboxController.new("Start",uiPlacement.buttonStart.x, uiPlacement.buttonStart.y, 200, 50) ,clickSfx)
+    local startButton = Instance.new("Button")
+    startButton.text = "Start"
+    startButton:setPos(20,150)
+    startButton:setSize(200,50)
+    startButton.limit = 200
+    startButton.textColor = colorTheme.titleColor
+    startButton["click"] = function()
+        guiController.clearElements()
+    end
 
-
-    guiController.addElement(button)
     guiController.addElement(titleLabel)
-    guiController.addElement(undertitleLabel)
-    
-    --guiController.clearElements()
+    guiController.addElement(underTitleLabel)
+    guiController.addElement(startButton)
+
+
 end
 
 function love.mousepressed(x, y, mouseButton, istouch, presses)
-    if mouseButton == 1 then
-        for _, buttonObj in pairs(buttonController.buttons) do
-            if buttonObj.hovering and buttonObj.enabled then buttonObj:click(x,y) end
-        end
-    end
+    Button.mousepressed(x,y,mouseButton,istouch,presses)
 end
 
 
