@@ -3,6 +3,7 @@
 local Textbox = require "Assets.Modules.TextboxClass"
 local Textlabel = require "Assets.Modules.TextlabelClass"
 local Button = require "Assets.Modules.ButtonClass"
+local Upgrade = require "Assets.Modules.UpgradeClass"
 
 local Instance = {}
 Instance.__index = Instance
@@ -38,5 +39,6 @@ function Instance:draw() end
 Instance.register("Textbox", Textbox)
 Instance.register("Textlabel", Textlabel)
 Instance.register("Button", Button)
+Instance.register("Upgrade", Upgrade)
 
 return Instance

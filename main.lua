@@ -125,9 +125,19 @@ function love.load()
         moneyLabel.text = string.format("Money:$%.2f",Manager.getMoney())
     end
 
+    local multLabel = Instance.new("Textlabel")
+    multLabel.text = "Mult:"
+    multLabel:setPos(0,0)
+    multLabel:setSize(125,150)
+    multLabel.limit = 125
+    multLabel.font = fontSmall
+    multLabel.textColor = colorTheme.titleColor
+    multLabel.update = function()
+        multLabel.text = string.format("Mult:%.2f",testUpgrade.trigger(1))
+    end
 
     local panel = {titleLabel,underTitleLabel,startButton}
-    local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton}
+    local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton,multLabel}
 
     GuiController.createGUI("title",panel)
     GuiController.createGUI("game",gamePanel)
