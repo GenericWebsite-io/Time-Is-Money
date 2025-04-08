@@ -53,11 +53,11 @@ function love.load()
     titleLabel.textColor = colorTheme.titleColor
 
     local underTitleLabel = Instance.new("Textlabel")
-    underTitleLabel.text = "Version: 0.12 - Instances"
-    underTitleLabel:setPos(-20,55)
-    underTitleLabel:setSize(250,50)
+    underTitleLabel.text = "Version: 0.22 - I need to make version a variable, the version."
+    underTitleLabel:setPos(-15,55)
+    underTitleLabel:setSize(500,50)
     underTitleLabel.anchor = titleLabel
-    underTitleLabel.limit = 250
+    underTitleLabel.limit = 500
     underTitleLabel.font = fontSmall
     underTitleLabel.textColor = colorTheme.titleColor
 
@@ -84,13 +84,24 @@ function love.load()
 
     local sellButton = Instance.new("Button")
     sellButton.text = "Sell"
-    sellButton:setPos(screenWidth*0.5-100,screenHeight*0.5+50)
+    sellButton:setPos(screenWidth*0.5-100,screenHeight*0.5+125)
     sellButton:setSize(200,50)
     sellButton.limit = 200
     sellButton.textColor = colorTheme.titleColor
     sellButton.click = function()
         Manager.sell()
     end
+
+    local buyButton = Instance.new("Button")
+    buyButton.text = "Buy"
+    buyButton:setPos(screenWidth*0.5-100,screenHeight*0.5+50)
+    buyButton:setSize(200,50)
+    buyButton.limit = 200
+    buyButton.textColor = colorTheme.titleColor
+    buyButton.click = function()
+        Manager.buy(1)
+    end
+
 
     local timeLabel = Instance.new("Textlabel")
     timeLabel.text = "Time:0"
@@ -103,8 +114,20 @@ function love.load()
         timeLabel.text = string.format("Time:%.2f",Manager.getTime())
     end
 
+    local moneyLabel = Instance.new("Textlabel")
+    moneyLabel.text = "Money:0"
+    moneyLabel:setPos(0,0)
+    moneyLabel:setSize(125,100)
+    moneyLabel.limit = 125
+    moneyLabel.font = fontSmall
+    moneyLabel.textColor = colorTheme.titleColor
+    moneyLabel.update = function()
+        moneyLabel.text = string.format("Money:$%.2f",Manager.getMoney())
+    end
+
+
     local panel = {titleLabel,underTitleLabel,startButton}
-    local gamePanel = {testLabel,timeLabel,sellButton}
+    local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton}
 
     GuiController.createGUI("title",panel)
     GuiController.createGUI("game",gamePanel)
