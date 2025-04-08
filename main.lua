@@ -21,6 +21,7 @@ function love.load()
 
     -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
     GuiController = require "Assets/Modules/GuiController"
+    Manager = require "Assets/Modules/Manager"
     Button = require "Assets/Modules/ButtonClass"
     Instance = require "Assets/Modules/InstanceClass"
 
@@ -67,6 +68,7 @@ function love.load()
     startButton.limit = 200
     startButton.textColor = colorTheme.titleColor
     startButton.click = function()
+        Manager.init()
         GuiController.loadGUI("game")
     end
 
@@ -80,6 +82,16 @@ function love.load()
     testLabel.font = fontBig
     testLabel.textColor = colorTheme.titleColor
 
+    local sellButton = Instance.new("Button")
+    sellButton.text = "Sell"
+    sellButton:setPos(screenWidth*0.5-100,screenHeight*0.5+50)
+    sellButton:setSize(200,50)
+    sellButton.limit = 200
+    sellButton.textColor = colorTheme.titleColor
+    sellButton.click = function()
+        Manager.sell()
+    end
+
     local timeLabel = Instance.new("Textlabel")
     timeLabel.text = "Time:0"
     timeLabel:setPos(0,0)
@@ -88,11 +100,11 @@ function love.load()
     timeLabel.font = fontSmall
     timeLabel.textColor = colorTheme.titleColor
     timeLabel.update = function()
-        timeLabel.text = string.format("Time:%.2f",love.timer.getTime())
+        timeLabel.text = string.format("Time:%.2f",Manager.getTime())
     end
 
     local panel = {titleLabel,underTitleLabel,startButton}
-    local gamePanel = {testLabel,timeLabel}
+    local gamePanel = {testLabel,timeLabel,sellButton}
 
     GuiController.createGUI("title",panel)
     GuiController.createGUI("game",gamePanel)
@@ -107,6 +119,7 @@ end
 
 
 function love.update()
+    Manager.update()
     GuiController.updateAll()
 end
 

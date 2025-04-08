@@ -70,6 +70,10 @@ function GuiController.createGUI(Name,Table)
 end
 
 function GuiController.loadGUI(Name)
+    if guiPanels[Name] == nil then 
+        error(Name .. " is not a valid GUI Panel!",2)
+     end
+     
     GuiController.clearElements()
     for key, value in pairs(guiPanels[Name]) do
         GuiController.addElement(value)
