@@ -100,7 +100,9 @@ function love.load()
     buyButton.limit = 200
     buyButton.textColor = colorTheme.titleColor
     buyButton.click = function()
-        Manager.buy(upgrades[2]["test"])
+        local upg = Manager.fetchByID("test")
+        print(upg)
+        Manager.buy(upg)
         buyButton.text = "Buy Upgrade. Cost:$" .. testUpgrade.cost()
     end
 

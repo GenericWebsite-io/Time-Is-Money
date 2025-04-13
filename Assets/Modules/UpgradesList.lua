@@ -4,7 +4,7 @@ local Instance = require "Assets.Modules.InstanceClass"
 List of all valid upgrades.
 ]]
 
-local upgrades = {}
+
 local upgrades = {}
 upgrades[1] = {}
 upgrades[2] = {}

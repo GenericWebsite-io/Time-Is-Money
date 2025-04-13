@@ -21,6 +21,17 @@ function Manager.init()
     true_ = true
 end
 
+function Manager.fetchByID(id)
+    for _,table in ipairs(upgrades) do
+        for _,upgrade in ipairs(table) do
+            if upgrade.id == id then
+                return upgrade
+            end
+        end 
+    end
+    error("upgrade not find D:")
+end
+
 function Manager.update()
     managerTime = love.timer.getTime() - resetTime
 end
@@ -43,8 +54,8 @@ function Manager.sell()
 end
 
 function Manager.buy(upgrade) -- ID serves as a temporary parameter and may be discarded.
-    cost = upgrade.cost
-    level = upgrade.level 
+    cost = upgrade.cost()
+    level = upgrade.level
     canLevel = upgrade.canLevel
     if money >= cost and canLevel == true then
         money = money - cost
