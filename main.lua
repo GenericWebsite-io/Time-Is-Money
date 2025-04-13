@@ -22,6 +22,7 @@ function love.load()
     -- Due to how require works it is not possible to pass the variable {modulePath} because it expects the name of the module, not path.
     GuiController = require "Assets/Modules/GuiController"
     Manager = require "Assets/Modules/Manager"
+    upgrades = Manager.getUpgrades()
     Button = require "Assets/Modules/ButtonClass"
     Instance = require "Assets/Modules/InstanceClass"
 
@@ -93,13 +94,14 @@ function love.load()
     end
 
     local buyButton = Instance.new("Button")
-    buyButton.text = "Buy"
+    buyButton.text = "Buy Upgrade. Cost:$" .. testUpgrade.cost()
     buyButton:setPos(screenWidth*0.5-100,screenHeight*0.5+50)
     buyButton:setSize(200,50)
     buyButton.limit = 200
     buyButton.textColor = colorTheme.titleColor
     buyButton.click = function()
-        Manager.buy(1)
+        Manager.buy(upgrades[2]["test"])
+        buyButton.text = "Buy Upgrade. Cost:$" .. testUpgrade.cost()
     end
 
 
@@ -116,8 +118,8 @@ function love.load()
 
     local moneyLabel = Instance.new("Textlabel")
     moneyLabel.text = "Money:0"
-    moneyLabel:setPos(0,0)
-    moneyLabel:setSize(125,100)
+    moneyLabel:setPos(0,50)
+    moneyLabel:setSize(125,50)
     moneyLabel.limit = 125
     moneyLabel.font = fontSmall
     moneyLabel.textColor = colorTheme.titleColor
@@ -127,8 +129,8 @@ function love.load()
 
     local multLabel = Instance.new("Textlabel")
     multLabel.text = "Mult:"
-    multLabel:setPos(0,0)
-    multLabel:setSize(125,150)
+    multLabel:setPos(0,100)
+    multLabel:setSize(125,50)
     multLabel.limit = 125
     multLabel.font = fontSmall
     multLabel.textColor = colorTheme.titleColor
@@ -136,12 +138,21 @@ function love.load()
         multLabel.text = string.format("Mult:%.2f",testUpgrade.trigger(1))
     end
 
+
+    local cloneLabel = Instance.Clone(multLabel)
+    cloneLabel.update = function()
+        cloneLabel.text = string.format("Mult:%.2f",testUpgrade.trigger(1))
+    end
+    cloneLabel:setPos(0,150)
+
     local panel = {titleLabel,underTitleLabel,startButton}
-    local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton,multLabel}
+    local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton,multLabel,cloneLabel}
 
     GuiController.createGUI("title",panel)
     GuiController.createGUI("game",gamePanel)
     GuiController.loadGUI("title")
+
+    
 
 
 end

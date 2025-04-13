@@ -32,6 +32,12 @@ function Instance.new(className)
 
 end
 
+function Instance.Clone(instance)
+    local clone = {}
+    for key, value in pairs(instance) do clone[key] = value end
+    return clone
+end
+
 function Instance:update() end
 function Instance:draw() end
 
