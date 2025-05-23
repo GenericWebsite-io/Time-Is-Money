@@ -14,6 +14,11 @@ function Instance.register(className, classTable)
     registeredClasses[string.lower(className)] = classTable
 end
 
+--[[
+Instance class is what all other classes inherent from. It is a factory in charge
+of creating all other classes given the name of said class. 
+]]
+
 function Instance.new(className)
 
     local className = string.lower(className)   

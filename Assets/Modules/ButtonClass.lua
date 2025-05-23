@@ -1,6 +1,6 @@
 
 --[[
-    ABSTRACT BUTTON CLASS
+     BUTTON CLASS
 ]]
 
 Button = {}  -- Class definition.

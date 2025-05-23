@@ -45,6 +45,12 @@ function love.load()
     fontNormal = love.graphics.newFont(myFont,24)
     fontSmall = love.graphics.newFont(myFont,18)
     
+    --[[
+    Creating ui elements here. Still in testing phase sort of. The defining of elements
+    will be handled outside of main but for testing purposes it is curretly handled by
+    main.lua
+    ]]
+
     local titleLabel = Instance.new("Textlabel")
     titleLabel.text = "Time is Money"
     titleLabel:setPos(10,0)
@@ -147,12 +153,17 @@ function love.load()
     end
     cloneLabel:setPos(0,150)
 
+    -- Going to add a function to add elements to a panel. 
+    -- This large list gets confusing quickly.
+
     local panel = {titleLabel,underTitleLabel,startButton}
     local gamePanel = {testLabel,timeLabel,sellButton,moneyLabel,buyButton,multLabel,cloneLabel}
 
     GuiController.createGUI("title",panel)
     GuiController.createGUI("game",gamePanel)
     GuiController.loadGUI("title")
+
+    print(Manager.managerTime)
 
     
 

@@ -2,7 +2,7 @@
 local Upgrade = {}
 Upgrade.__index = Upgrade
 
--- Need to rename the things to Upgrade instead of Upgrade
+-- Early development of upgrade class.
 function Upgrade.new(instance)
     --[[
         Upgrade constructor.

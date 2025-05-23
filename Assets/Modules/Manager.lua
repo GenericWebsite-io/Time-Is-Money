@@ -14,6 +14,16 @@ local managerTime = 0
 local money = 0
 local true_ = false -- lol I have no idea why this exists.
 
+--[[
+Early development stuff. The manager is in charge of game logic and upgrade mechanics. 
+It counts the time and when the user requests to sell their time, manager is what
+does the conversion. 
+
+Manager is largely isolated as its variables cannot be edited by any other module.
+In order to obtain information from the Manager a series of get-functions exist. 
+Like getMoney()
+]]
+
 
 function Manager.init()
     resetTime = love.timer.getTime()

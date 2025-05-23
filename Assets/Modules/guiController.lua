@@ -1,7 +1,7 @@
 --[[
     Gui Controller 
-    Handles the integration between seperate ui elements and is in charge of managing them.
-    Also the main updater.
+    Renders & Updates ui elements as dictated by main.lua
+    Capable of loading scenes using 'panels'. Essentially a list of ui elements.
 ]]
 
 
@@ -58,7 +58,7 @@ function GuiController.removeElement(element)
 
 end
 
-function GuiController.clearElements()
+function GuiController.clearElements() -- Clears all elements.
     guiElements = {}
     for _, obj in pairs(guiElements) do
         print(obj)
@@ -66,10 +66,15 @@ function GuiController.clearElements()
 end
 
 function GuiController.createGUI(Name,Table)
+    --[[
+    This creates a new gui panel, essentially a list of ui elements needed to render
+    a specific scene. Useful for switching between something like settings and
+    the game.
+    ]]
     guiPanels[Name] = Table
 end
 
-function GuiController.loadGUI(Name)
+function GuiController.loadGUI(Name) -- Load a gui panel.
     if guiPanels[Name] == nil then 
         error(Name .. " is not a valid GUI Panel!",2)
      end
@@ -80,6 +85,10 @@ function GuiController.loadGUI(Name)
     end
 end
 
+
+--[[
+Simple functions to render and update all elements currently active.
+]]
 
 function GuiController.drawAll()
     for _, element in pairs(guiElements) do

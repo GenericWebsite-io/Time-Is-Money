@@ -3,8 +3,6 @@ local Textlabel = {}
 Textlabel.__index = Textlabel
 
 
-
--- Need to rename the things to Textlabel instead of Textlabel
 function Textlabel.new(instance)
     --[[
         Textlabel constructor.

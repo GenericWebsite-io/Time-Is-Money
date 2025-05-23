@@ -2,6 +2,8 @@ local Instance = require "Assets.Modules.InstanceClass"
 
 --[[
 List of all valid upgrades.
+Early development, testing stuff. This is essentially where upgrades are defined,
+then added to the list of available upgrades to buy.
 ]]
 
 
